@@ -1,0 +1,8 @@
+certifi==2021.5.30
+chardet==4.0.0
+idna==2.10
+pydub==0.25.1
+requests==2.25.1
+urllib3==1.26.5
+youtube-dl==2021.6.6
+youtube-search==2.1.0
