@@ -9,9 +9,10 @@ from pydub import AudioSegment
 from youtube_search import YoutubeSearch
 
 class YoutubeAudio:
-	def __init__(self, terms, path):
+	def __init__(self, terms, path, max_results=10):
 		self.terms = terms
 		self.path = path
+		self.MAX_RESULTS: int = max_results
 		self.search_videos()
 		self.write_to_file()
 		self.download_urls()
@@ -23,7 +24,7 @@ class YoutubeAudio:
 		i = 0
 		for term in self.terms:
 			i += 1
-			results = YoutubeSearch(term, max_results=10).to_dict()
+			results = YoutubeSearch(term, max_results=self.MAX_RESULTS).to_dict()
 			if i == 1:
 				output = results
 			else:
