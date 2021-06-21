@@ -1,2 +1,2 @@
-venv/
-data/*.txt
+env/
+__pycache__/
