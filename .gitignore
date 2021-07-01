@@ -1,2 +1,7 @@
 env/
 __pycache__/
+venv/
+data/*.csv
+data/*.txt
+.DS_Store
+
