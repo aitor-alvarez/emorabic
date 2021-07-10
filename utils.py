@@ -9,10 +9,11 @@ from pydub import AudioSegment
 from youtube_search import YoutubeSearch
 
 class YoutubeAudio:
-	def __init__(self, terms, path, max_results=10):
+	def __init__(self, terms, path, max_results=10, duration=60):
 		self.terms = terms
 		self.path = path
 		self.MAX_RESULTS: int = max_results
+		self.DURATION: int = duration
 		self.search_videos()
 		self.write_to_file()
 		self.download_urls()
@@ -31,6 +32,7 @@ class YoutubeAudio:
 				output += results
 		return output
 
+
 	def write_to_file(self):
 		'''
 		This function takes the dictinary result from (search_videos) 
@@ -48,11 +50,16 @@ class YoutubeAudio:
 			print("I/O error")
 
 	def download_urls(self):
-		list_urls = pd.read_csv(self.path, sep=',')
-		list_urls = list_urls['url_suffix'].tolist()
+		main_urls = pd.read_csv(self.path, sep=',')
+		
+		mydict = pd.Series(main_urls.url_suffix.values,
+		                   index=main_urls.duration).to_dict()
+		mydict = {int(k.replace(":", "")): v for k, v in mydict.items()}
+		
 		base_url = 'https://youtube.com'
-
-		url = [base_url+l for l in list_urls]
+		urls = [base_url + v for k,v in mydict.items() if k <= self.DURATION]
+		
+		
 		ydl_opts = {
             	'format': 'bestaudio/best',
                 'outtmpl': './audio/%(id)s.%(ext)s',
@@ -63,8 +70,14 @@ class YoutubeAudio:
         		}
 
 		with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-			for i in url:
+			for i in urls:
 				ydl.download([i])
+
+		print()
+		print('########################################')
+		print(f'# FOUND {len(urls)} AUDIO/S LESS THAN {self.DURATION} SECONDS #')
+		print('########################################')
+		print()
 
 
 
