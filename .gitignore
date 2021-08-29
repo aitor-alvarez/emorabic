@@ -6,4 +6,4 @@ venv/
 data/*.csv
 data/*.txt
 .DS_Store
-
+*.flac
