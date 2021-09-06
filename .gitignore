@@ -5,5 +5,5 @@ __pycache__/
 venv/
 data/*.csv
 data/*.txt
-.DS_Store
-
+*.DS_Store
+*.flac
