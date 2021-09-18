@@ -36,9 +36,11 @@
 The audios will be downloaded in `audio` directory and the `csv file` will be in data directory. The `csv`file should look as follows:
 
 ```
-	type	id	term	duration	new_duration	link
-0	video	SYuDWeJs8nc	['ضحك', 'ضحك', 'ضحك', 'ضحك']	3:46	346	https://www.youtube.com/watch?v=SYuDWeJs8nc
-1	video	PTgyeMbcwqw	['ضحك']	1:30	130	https://www.youtube.com/watch?v=PTgyeMbcwqw
+	type	id	term	emotion	duration	new_duration	link
+46	video	NtZfG2qE15M	['معصب']	angry	0:27	27	https://www.youtube.com/watch?v=NtZfG2qE15M
+48	video	aFCA5_KZ77o	['معصب']	angry	0:16	16	https://www.youtube.com/watch?v=aFCA5_KZ77o
+56	video	QsZBHN8MtCA	['معصب']	angry	0:31	31	https://www.youtube.com/watch?v=QsZBHN8MtCA
+58	video	2nioS4a6xhA	['معصب']	angry	0:14	14	https://www.youtube.com/watch?v=2nioS4a6xhA
 
 ```
 
