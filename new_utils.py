@@ -4,6 +4,7 @@
 from __future__ import unicode_literals
 from youtubesearchpython import VideosSearch
 import pandas as pd
+from typing import List
 import youtube_dl
 import re
 
@@ -23,39 +24,40 @@ class GetYoutubeVideos:
 
         #### (1) get a list of dicts by term
         list_of_dicts = []
-        for term in self.terms:
-            results = VideosSearch(term, limit=self.MAX_RESULTS, region=self.REGION)
-            output = results.result()
-            for value in output.values():
-                for values in value:
-                    list_of_dicts.append(values)
+        for values in self.terms.values():
+            for term in values:
+                results = VideosSearch(term, limit=self.MAX_RESULTS, region=self.REGION)
+                output = results.result()
+                for value in output.values():
+                    for values in value:
+                        list_of_dicts.append(values)
 
         #### (2) save the list of dicts to a dataframe
         df = pd.DataFrame(list_of_dicts)
-        mydict = pd.Series(df.link.values, index=df.duration).to_dict()
-        mydict = {int(k.replace(":", "")): v for k, v in mydict.items()}
-        dictionary = mydict.keys()
+        duration = df["duration"].tolist()
+        duration2 = [int(item.replace(":", "")) for item in duration]
+        df["new_duration"] = duration2
+        print(df)
 
-        ### (3) convert duration to an integer and append to the dataframe
-        df = pd.DataFrame(df)
-        df["new_duration"] = dictionary
-
-        ### (4) filter the dataframe rows by the new duration entered on the command line
+        ### (3) filter the dataframe rows by the new duration entered on the command line
         df = df.loc[df["new_duration"] <= self.DURATION]
+        print(df)
 
-        ### (5) add the term (emotion) as a column in the dataframe
-        for term in self.terms:
-            d = df.title.str.findall(term)
-            if d.any():
-                df["term"] = d
+        ### (4) add the term as a column in the dataframe
+        for keys, values in self.terms.items():
+            for term in values:
+                d = df.title.str.findall(term)
+                if d.any():
+                    df["term"] = d
+                    df["emotion"] = keys
 
-        ### (7) delete unneccesary columns and save to csv file
-        df = df[["type", "id", "term", "duration", "new_duration", "link"]]
+        # ### (5) delete unneccesary columns and save to csv file
+        df = df[["type", "id", "term", "emotion", "duration", "new_duration", "link"]]
         df = df[~df.term.str.len().eq(0)]
         datafile = "./data/data.csv"
         df.to_csv(datafile, sep="\t", encoding="utf-8")
 
-        # (8) download the audio/s
+        # # (6) download the audio/s
         urls = df["link"].tolist()
 
         ydl_opts = {

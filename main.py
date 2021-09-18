@@ -4,7 +4,11 @@ import argparse
 from new_utils import GetYoutubeVideos
 
 # list of terms used to download the audios
-terms = ["ضحك", "حزن"]
+
+terms = {
+    "disgust": ["اشمئزاز", "مشمئزة", "مشمئز", "قرف"],
+    "angry": ["معصب", "معصبه", "غضبان"],
+}
 
 
 if __name__ == "__main__":
