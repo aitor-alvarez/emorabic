@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import argparse
-from new_utils import GetYoutubeVideos
+from utils import GetYoutubeVideos
+from gulf import terms
 
-# list of terms used to download the audios
-
-terms = {
-    "disgust": ["اشمئزاز", "مشمئزة", "مشمئز", "قرف"],
-    "angry": ["معصب", "معصبه", "غضبان"],
-}
+# from egyptian import terms
+# from levantine import terms
+# from moroccan import terms
+# from tunisian import terms
 
 
 if __name__ == "__main__":
